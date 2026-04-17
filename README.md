@@ -24,6 +24,20 @@ In other words, a branch is not just a working branch. It is a publishable recor
 
 - `codex-gpt-5.4-high-reasoning`: full research corpus produced with Codex using GPT-5.4 at high reasoning
 
+## TL;DR Of The Research Prompt
+
+Each branch in this repo is generally trying to answer a version of this question:
+
+"Survey the Drupal AI tooling landscape, especially repos dealing with agent skills, contribution helpers, workflow integrations, prompt libraries, and testing harnesses, then determine what `ai_best_practices` should absorb, reference, collaborate with, or ignore."
+
+In practice, that usually means the prompt asks the agent to:
+
+- gather and index a defined set of Drupal-related repos and projects
+- analyze each repo against the same rubric
+- compare overlaps, divergences, and standards conformance across the set
+- identify best-in-class patterns, content, and distribution approaches
+- produce a synthesis and a draft spec for how `ai_best_practices` should consolidate the landscape
+
 ## Expected Branch Structure
 
 Research branches should generally contain a structure like this:
