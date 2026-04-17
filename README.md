@@ -1,16 +1,25 @@
 # Drupal AI Ecosystem Research
 
-Research corpus for the Drupal AI tooling landscape synthesis completed on 2026-04-17.
+This repository is a holding space for Drupal AI ecosystem research snapshots produced with different tool and model combinations.
 
-## Contents
+## How This Repo Is Organized
 
-- `research/SPEC.md`: proposed consolidation spec for `ai_best_practices`
-- `research/SYNTHESIS.md`: cross-repo synthesis and best-in-class picks
-- `research/tier3.md`: Tier 3 ecosystem scan
-- `research/acquisition-failures.md`: Phase 1 acquisition failures log
-- `research/repos/<slug>/INDEX.md`: deterministic Phase 1 repo index
-- `research/repos/<slug>/ANALYSIS.md`: per-repo Phase 2 analysis
+- `main` is intentionally lightweight and acts as the landing page for the repository.
+- Full research outputs live in branches named after the tool + model combination that produced them.
+- Other runs should be published to similarly named branches so the provenance of each research snapshot stays obvious.
 
-## Scope
+## Current Branches
 
-This repo contains the research outputs, not full source mirrors of the repos that were analyzed.
+- `codex-gpt-5.4-high-reasoning`: full research corpus produced with Codex using GPT-5.4 at high reasoning
+
+## What You Will Find In Research Branches
+
+Research branches may contain:
+
+- deterministic repo indexes
+- per-repo analyses
+- cross-repo syntheses
+- spec drafts
+- acquisition logs and supporting notes
+
+The intent is to compare outputs across tool/model combinations without mixing their artefacts together on `main`.
