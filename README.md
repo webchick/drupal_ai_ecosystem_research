@@ -1,78 +1,63 @@
-# Drupal AI Ecosystem Research
+# opus-4-7 — Claude Code + Claude Opus 4.7 (1M) + high-effort reasoning
 
-This repository is a holding space for Drupal AI ecosystem research snapshots produced with different tool and model combinations.
+Research snapshot produced 2026-04-17 for the prompt in `PROMPT.md` on `main`.
 
-## How This Repo Is Organized
+## Run metadata
 
-- `main` is intentionally lightweight and acts as the landing page for the repository.
-- Full research outputs live in branches named after the tool + model combination that produced them.
-- Other runs should be published to similarly named branches so the provenance of each research snapshot stays obvious.
+| Field | Value |
+|---|---|
+| Tool | Claude Code (Anthropic's official CLI) |
+| Model | `claude-opus-4-7` (Claude Opus 4.7, knowledge cutoff 2026-01) |
+| Context | 1M tokens |
+| Reasoning mode | `effortLevel: "high"` (user global setting) |
+| Orchestration | Main agent + ~30 spawned sub-agents (general-purpose) for Phase 1 indexing and Phase 2 per-repo analysis |
+| Run date | 2026-04-17 |
+| Contributor | gkastanis (branch author) |
 
-## What A Branch Means
+## What's in this branch
 
-Each non-`main` branch is intended to be a self-contained research snapshot produced by one specific tool/model/reasoning setup.
+Follows the `Expected Branch Structure` from `main`:
 
-A branch name should tell you:
+- `research/SPEC.md` — proposal draft for the `ai_best_practices` issue queue (2457 words, 8 sections, 10 open questions).
+- `research/SYNTHESIS.md` — cross-repo synthesis (6002 words, 7 sections: landscape map, standards conformance map, pattern clusters, coverage matrix, overlap analysis, best-in-class picks, meta-observations).
+- `research/tier3.md` — lighter scans of adjacent/index-style resources (5 entries).
+- `research/acquisition-failures.md` — acquisition log. **Empty** — 25/25 target repos cloned successfully.
+- `research/repos/<slug>/INDEX.md` × 25 — deterministic Phase 1 acquisition output (file tree, file-type counts, key-file presence, SKILL.md count, README head, last commit).
+- `research/repos/<slug>/ANALYSIS.md` × 25 — Phase 2 semantic analysis against a Q0–Q13 rubric (Tier 1 full) or Q1/2/3/4/7/8/11/13 subset (Tier 2 lite).
 
-- which tool produced the research
-- which model was used
-- what reasoning mode or depth was used, if that matters
+## Scope expansion from the original prompt
 
-In other words, a branch is not just a working branch. It is a publishable record of one complete run so that outputs can be compared across different tool/model combinations.
+Three groups of repositories were added to the clone list during the run, with user approval at checkpoints:
 
-## Current Branches
+- **`drupal_devkit`** — promoted from Tier 3 to full Tier 1 analysis after initial scan revealed it positions itself as the "reference implementation of `ai_best_practices`" and registers `ai_best_practices` as a default marketplace source.
+- **`edutrul/drupal-ai`** — added (full Tier 1) on user pointer; 35 `SKILL.md` files, multi-tool (Claude/Codex/Cursor/Copilot).
+- **`nonzod/drupaldev-claude-skill`, `zivtech/drupal-meta-skills`, `zivtech/a11y-meta-skills`** — added (Tier 2 lite) after they surfaced in the zivtech landscape page scan.
 
-- `codex-gpt-5.4-high-reasoning`: full research corpus produced with Codex using GPT-5.4 at high reasoning
+Final count: **25 repos indexed + analysed** (9 Tier 1 full, 16 Tier 2 lite) + **5 Tier 3 entries**.
 
-## TL;DR Of The Research Prompt
+## Headline findings
 
-Each branch in this repo is generally trying to answer a version of this question:
+From `research/SYNTHESIS.md`:
 
-"Survey the Drupal AI tooling landscape, especially repos dealing with agent skills, contribution helpers, workflow integrations, prompt libraries, and testing harnesses, then determine what `ai_best_practices` should absorb, reference, collaborate with, or ignore."
+- **Near-total naming drift**: of ~193 authored `SKILL.md` files across the 25 repos, exactly **one** (`gkastanis/writing-plans`) matches `ai_best_practices`' locked gerund-prefix convention.
+- **`ai_best_practices` is a content source, not a competitor**: Surge (Composer-plugin scanner) and drupal_devkit (Python marketplace-of-marketplaces) both aggregate it. drupal_devkit already registers it as a default marketplace source.
+- **Dependency transition trap**: Surge hard-requires frozen `drupal/ai_skills`. `ai_best_practices` must reach parity (ship `contributing-upstream-fixes` content) before Surge can swap `require drupal/ai_skills` → `require drupal/ai_best_practices`.
+- **Biggest coverage gap**: accessibility is covered by exactly one repo (zivtech-a11y-meta-skills). Zero ecosystem coverage for JSON:API/REST/decoupled, state API, batch/queue, recipes.
+- **Licence-missing epidemic**: ~half the corpus ships no `LICENSE` file — blocks verbatim absorption.
 
-In practice, that usually means the prompt asks the agent to:
+## Top SPEC recommendations
 
-- gather and index a defined set of Drupal-related repos and projects
-- analyze each repo against the same rubric
-- compare overlaps, divergences, and standards conformance across the set
-- identify best-in-class patterns, content, and distribution approaches
-- produce a synthesis and a draft spec for how `ai_best_practices` should consolidate the landscape
+From `research/SPEC.md`:
 
-## Expected Branch Structure
+1. Publish `drupal/ai_best_practices` as a Composer package with `skills/` at root + `metadata:`-nested frontmatter (passes Surge's `SkillValidator`, compatible with drupal_devkit).
+2. Land `contributing-upstream-fixes` (absorbed from `scottfalconer/drupal-contribute-fix` via `ai_skills`) in v0.1 as the parity gate for Surge's dependency swap.
+3. Unconditionally absorb `zivtech-a11y-meta-skills` (only accessibility source). Selectively absorb `zivtech-drupal-meta-skills` critic/planner, `edutrul-drupal-ai` hook pattern, `gxleano-drupal-agentic-workflow` post-generation-lint hook, `gkastanis-drupal-workflow` routing/doc-pyramid.
 
-Research branches should generally contain a structure like this:
+See `research/SPEC.md` §7 for 10 open questions surfaced for the issue queue.
 
-- `README.md`
-  explains the branch at a high level if needed
-- `research/SPEC.md`
-  a proposal or decision draft derived from the research
-- `research/SYNTHESIS.md`
-  a cross-repo or cross-source synthesis
-- `research/tier3.md`
-  lighter scans of adjacent or index-style resources
-- `research/acquisition-failures.md`
-  a record of any missing, failed, or unverifiable inputs
-- `research/repos/<slug>/INDEX.md`
-  deterministic acquisition/indexing output for a specific repo
-- `research/repos/<slug>/ANALYSIS.md`
-  semantic analysis of that repo based on the indexed evidence
+## Limitations
 
-Not every branch has to contain exactly the same files, but branches should try to follow this layout so they are easy to compare.
-
-## What You Should Expect To Find In Research Branches
-
-Research branches may include:
-
-- deterministic repo indexes
-- per-repo analyses
-- cross-repo syntheses
-- spec drafts
-- acquisition logs and supporting notes
-
-They should not be treated as canonical truth forever. They are time-bound research artefacts, tied to:
-
-- the tool and model that produced them
-- the sources available at the time
-- the judgment calls made during that specific run
-
-The intent is to compare outputs across tool/model combinations without mixing their artefacts together on `main`.
+- **Time-bound**: captures the ecosystem as of 2026-04-17. Some repos (`drupal_ai` on drupal.org) were created in the last 24 hours and had empty git histories at scan time.
+- **Sub-agent variance**: Phase 2 analyses were produced by ~20 parallel general-purpose sub-agents with a shared rubric. Writing style and depth vary across analyses. Q0–Q13 citations were spot-checked but not exhaustively re-verified.
+- **Content quality not evaluated at line level**: the "best-in-class" picks in `SYNTHESIS.md §6` are grounded in Phase 2 ANALYSIS.md claims, not in end-to-end eval runs of the skills themselves.
+- **No PR filed**: this branch is a research artefact. Translating it into concrete `ai_best_practices` issues/PRs is next-step work.
