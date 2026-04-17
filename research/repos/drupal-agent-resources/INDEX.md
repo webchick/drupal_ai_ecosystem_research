@@ -1,0 +1,262 @@
+# INDEX for drupal-agent-resources
+## File Tree (Depth 3)
+```
+.
+./.claude
+./.claude/agents
+./.claude/agents/drupal-reviewer.md
+./.claude/commands
+./.claude/commands/config-export.md
+./.claude/commands/drush-check.md
+./.claude/commands/module-scaffold.md
+./.claude/commands/performance-check.md
+./.claude/commands/security-audit.md
+./.claude/skills
+./.claude/skills/ddev-expert
+./.claude/skills/docker-local
+./.claude/skills/drupal-expert
+./.claude/skills/drupal-migration
+./.claude/skills/drupal-security
+./.git
+./.github
+./.github/workflows
+./.github/workflows/validate.yml
+./CHANGELOG.md
+./CLAUDE.md
+./INDEX.md
+./README.md
+./RENAME_INSTRUCTIONS.md
+./ROADMAP.md
+./VERSIONING.md
+```
+## File Type Counts
+```
+  18 md
+   1 yml
+```
+## Presence of key files/directories
+- CLAUDE.md: Present
+- AGENTS.md: Absent
+- skills/: Absent
+- .claude/skills/: Present
+- agents/: Absent
+- commands/: Absent
+- hooks/: Absent
+- .claude/: Present
+- prompts/: Absent
+- evals/: Absent
+- composer.json: Absent
+- package.json: Absent
+- skills.yaml: Absent
+- SKILL.md: Absent
+## First 200 lines of README
+```
+# Drupal Agent Resources
+
+Reusable Claude Code resources for Drupal 10/11 development with DDEV and Docker-based local environments.
+
+Built on the [agent-resources](https://github.com/kasperjunge/agent-resources) package manager by Kasper Junge.
+
+## Vision
+
+Drupal is one of the most mature and well-structured open-source CMS platforms, with over two decades of established APIs, coding standards, and architectural patterns. This maturity makes it exceptionally well-suited for AI-assisted development - the conventions are well-documented, the APIs are consistent, and best practices are clearly defined.
+
+This project aims to set a high standard for how AI coding agents interact with Drupal, by encoding deep Drupal expertise into reusable resources that guide agents toward correct, secure, and maintainable code from the start. See the [ROADMAP.md](ROADMAP.md) for planned resources covering Drupal 11 upgrades, PHP 8.4 compatibility, testing, and more.
+
+## Installation
+
+Install resources with a single command using `agr` (auto-detects resource type):
+
+```bash
+# Skills
+agr add madsnorgaard/drupal-agent-resources/drupal-expert
+agr add madsnorgaard/drupal-agent-resources/drupal-security
+agr add madsnorgaard/drupal-agent-resources/drupal-migration
+agr add madsnorgaard/drupal-agent-resources/ddev-expert
+agr add madsnorgaard/drupal-agent-resources/docker-local
+
+# Agents
+agr add madsnorgaard/drupal-agent-resources/drupal-reviewer
+
+# Commands
+agr add madsnorgaard/drupal-agent-resources/drush-check
+agr add madsnorgaard/drupal-agent-resources/module-scaffold
+agr add madsnorgaard/drupal-agent-resources/config-export
+agr add madsnorgaard/drupal-agent-resources/security-audit
+agr add madsnorgaard/drupal-agent-resources/performance-check
+```
+
+### Quick Start
+
+```bash
+# Install agr via uv
+uv tool install agr
+
+# Add a resource (type auto-detected)
+agr add madsnorgaard/drupal-agent-resources/drupal-expert
+
+# Or try temporarily without installing
+agrx madsnorgaard/drupal-agent-resources/drupal-expert
+
+# Remove a resource
+agr remove drupal-expert
+
+# List installed resources
+agr list
+
+# Update an already-installed resource to the latest version
+agr add madsnorgaard/drupal-agent-resources/drupal-expert --overwrite
+```
+
+## Linux/WSL Installation
+
+If you're on Linux or WSL and don't have pip installed, follow these steps first:
+
+### Prerequisites
+
+For Ubuntu/Debian-based systems (including WSL):
+
+```bash
+# Update package list
+sudo apt update
+
+# Install Python 3 and pip
+sudo apt install -y python3 python3-pip python3-venv
+
+# Verify installation
+python3 --version
+pip3 --version
+```
+
+For other distributions:
+- **Fedora/RHEL**: `sudo dnf install python3 python3-pip`
+- **Arch**: `sudo pacman -S python python-pip`
+
+### Install uv (Universal Package Manager)
+
+```bash
+# Option 1: Using pip (recommended for WSL/Linux)
+pip3 install --user uv
+
+# Option 2: Using curl
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Verify installation
+uv --version
+```
+
+If `uv` command is not found, add to PATH:
+
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Install agr
+
+```bash
+# Install the agr CLI tool
+uv tool install agr
+
+# Verify installation
+agr --version
+
+# If agr command not found, ensure .local/bin is in PATH:
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### WSL-Specific Notes
+
+- **Path translation**: File paths in WSL use `/mnt/c/` for Windows drives
+- **Line endings**: Ensure git is configured for Unix line endings:
+  ```bash
+  git config --global core.autocrlf input
+  ```
+- **Performance**: For best performance, work within the WSL filesystem (`~/projects/`) rather than `/mnt/c/`
+
+### Troubleshooting
+
+**"Command not found: agr"**
+- Ensure `~/.local/bin` is in your PATH
+- Check installation: `uv tool list`
+- Reinstall: `uv tool uninstall agr && uv tool install agr`
+
+**"Permission denied" errors**
+- Don't use sudo with pip/uv user installs
+- Check file permissions: `ls -la ~/.local/bin/agr`
+
+**Resources not loading in Claude Code**
+- Verify installation: `agr list`
+- Check resource location: `ls -la ~/.claude/`
+- Restart Claude Code after installing new resources
+
+## Philosophy
+
+**Research before building.** These resources emphasize checking drupal.org for existing contrib modules before writing custom code. Maintainable Drupal sites minimize custom code.
+
+## Available Resources
+
+### Skills
+
+| Skill | Description |
+|-------|-------------|
+| `drupal-expert` | Drupal 10/11 development - modules, themes, services, hooks, D10/D11 compatibility |
+| `drupal-security` | Security expertise - auto-warns about XSS, SQL injection, access bypass while coding |
+| `drupal-migration` | Migration expertise - D7-to-D10, CSV imports, custom source/process plugins |
+| `ddev-expert` | DDEV local development - commands, Xdebug, custom services, performance tuning |
+| `docker-local` | Custom Docker Compose patterns for non-DDEV projects |
+
+### Agents
+
+| Agent | Description |
+|-------|-------------|
+| `drupal-reviewer` | Code review for Drupal - security, standards, performance, DI compliance |
+
+### Commands
+
+| Command | Usage | Description |
+|---------|-------|-------------|
+| `/drush-check` | `/drush-check` | Run health checks on a Drupal site |
+| `/module-scaffold` | `/module-scaffold [name]` | Generate a new module with best-practice structure |
+| `/config-export` | `/config-export` | Export Drupal configuration with review workflow |
+| `/security-audit` | `/security-audit [path]` | Audit site for security vulnerabilities |
+| `/performance-check` | `/performance-check [path]` | Analyze caching, queries, and optimization opportunities |
+
+## Usage Examples
+
+After installing the `drupal-expert` skill, Claude automatically applies Drupal best practices when you work on Drupal code - dependency injection, proper hooks, cache metadata, and more.
+
+After installing the `drupal-reviewer` agent, Claude uses it to review your code for security issues, coding standards violations, and performance problems.
+
+Commands are invoked with a slash:
+```
+/module-scaffold my_custom_module
+/security-audit modules/custom/
+```
+
+## Target Environment
+
+These resources assume:
+- Drupal 10.3+ or Drupal 11
+- PHP 8.2+
+- Composer-based project structure
+- Configuration management (config sync directory)
+- Either DDEV or custom Docker Compose for local development
+
+## Coding Standards
+
+All generated code follows:
+- Drupal coding standards (phpcs with drupal/coder)
+- PSR-4 autoloading
+- Dependency injection (no static `\Drupal::service()` calls)
+- PHP 8.2+ features (constructor property promotion, typed properties)
+```
+## License
+```
+No LICENSE found.
+```
+## Last Commit Date
+2026-04-14 10:44:23 +0200
+## Skill Count
+5 SKILL.md files found.
