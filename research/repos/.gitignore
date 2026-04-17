@@ -7,3 +7,4 @@
 !ANALYSIS.md
 # Only un-ignore THIS specific .gitignore file, not nested ones
 !/.gitignore
+!Comparison*.md
